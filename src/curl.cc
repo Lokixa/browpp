@@ -5,10 +5,12 @@
 #include <memory.h>
 
 curl::curl() : session{0} { curl_global_init(CURL_GLOBAL_DEFAULT); }
+
 curl::~curl() {
   free(last_message.data);
   curl_global_cleanup();
 }
+
 std::string curl::get(const char *url) noexcept {
   this->session = curl_easy_init();
   /* send all data to this function  */
