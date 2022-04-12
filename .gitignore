@@ -3,7 +3,10 @@
 *.o
 *.swp
 *.swap
+.*
+
 libs/
+
 *.exe
 main
-.*
+br
