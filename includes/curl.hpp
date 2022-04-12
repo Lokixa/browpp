@@ -25,8 +25,6 @@ class curl {
     memcpy(&(last_msg->data[last_msg->size]), data, realsize);
     last_msg->size += realsize;
     last_msg->data[last_msg->size] = 0;
-    // printf("Writing %s...\n", last_msg->data);
-    printf("Valid user pointer?: %s\n", userptr ? "Yes" : "No");
 
     return realsize;
   }
