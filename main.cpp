@@ -1,4 +1,4 @@
-#include "includes/curl.h"
+#include "includes/curl.hpp"
 #include <iostream>
 
 int main()
