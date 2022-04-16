@@ -5,8 +5,4 @@
 *.swap
 .*
 
-libs/
-
-*.exe
-main
-br
+build

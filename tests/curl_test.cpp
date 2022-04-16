@@ -1,9 +1,7 @@
 #include "../includes/curl.hpp"
-#include "../includes/testing.hpp"
-#include <iostream>
+#include <gtest/gtest.h>
 
-int main() {
+TEST(CURLTest, BasicAssertions) {
   curl curl{};
-  assert(!curl.get("https://lyubenk.com").empty());
-  return 0;
+  ASSERT_TRUE(!curl.get("https://lyubenk.com").empty());
 }

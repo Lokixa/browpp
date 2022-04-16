@@ -1,8 +1,8 @@
 #include "../includes/html.hpp"
-#include "../includes/testing.hpp"
+#include <gtest/gtest.h>
 
-int main() {
+// Demonstrate some basic assertions.
+TEST(HTMLTest, BasicAssertions) {
   html::html_tree tree{""};
-  assert(tree.getby_id("") != nullptr);
-  return 0;
+  EXPECT_EQ(tree.getby_id(""), nullptr);
 }
