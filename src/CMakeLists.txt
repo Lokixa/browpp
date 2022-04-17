@@ -4,6 +4,6 @@ add_compile_options(
   "$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Og;-Wall;-Wextra;-Wshadow;-Wunused;-pedantic;-Weffc++>>"
   "$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
 )
-add_library(html html.cc)
+add_library(html html/html.cc html/html_parser.cc)
 add_library(curlpp curlpp.cc)
 target_link_libraries(curlpp PUBLIC curl)
