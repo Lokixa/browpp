@@ -23,18 +23,18 @@ std::shared_ptr<node> node::to_tree(std::string &html) {
     switch (c) {
     // Opening node setup
     case '<': {
-      if (tag_stack.size() > 0 && tag_stack.back()->children.size() > 0)
-        printf("Text tag: '%s'\n",
-               tag_stack.back()->children.back()->name.c_str());
+      // if (tag_stack.size() > 0 && tag_stack.back()->children.size() > 0)
+      //   printf("Text tag: '%s'\n",
+      //          tag_stack.back()->children.back()->name.c_str());
       // TODO Add better error handling
-      if (in_tag)
-        printf("Invalid taggin\n");
+      // if (in_tag)
+      //   printf("Invalid taggin\n");
 
-      printf("Tags: [ ");
-      for (const auto &tag : tag_stack) {
-        printf("%s ", tag->name.c_str());
-      }
-      printf("]\n");
+      // printf("Tags: [ ");
+      // for (const auto &tag : tag_stack) {
+      //   printf("%s ", tag->name.c_str());
+      // }
+      // printf("]\n");
 
       // Check if closing tag
       if (i + 1 < html_len && html.at(i + 1) == '/') {
@@ -50,6 +50,9 @@ std::shared_ptr<node> node::to_tree(std::string &html) {
     // Closing node cleanup
     case '>': {
       // On closing tag
+      // TODO Empty nodes outside of main
+      // get set as root, figure out
+      // what should be done with them
       if (tag_stack.size() > 1) {
         std::shared_ptr<node> popped = tag_stack.back();
         if (is_closing_tag) {
@@ -68,6 +71,7 @@ std::shared_ptr<node> node::to_tree(std::string &html) {
           // }
         } else if (std::find(void_nodes.begin(), void_nodes.end(),
                              popped->name) != void_nodes.end()) {
+          popped->is_void_node = true;
           tag_stack.pop_back();
           tag_stack.back()->children.push_back(popped);
         }

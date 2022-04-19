@@ -42,15 +42,16 @@ void display_rec(std::shared_ptr<html::node> node) {
   printf("%s%s",
          node->is_text_node ? node->name.c_str()
                             : ("<" + node->name + ">").c_str(),
-         node->children.size() > 0 ? " -> " : "");
+         node->attrs["attrs"].c_str());
   for (const auto &child : node->children) {
     if (child.get() != nullptr) {
       display_rec(child);
     }
   }
 
-  printf("%s", node->is_text_node ? node->name.c_str()
-                                  : ("</" + node->name + ">").c_str());
+  printf("%s", node->is_text_node || node->is_void_node
+                   ? ""
+                   : ("</" + node->name + ">").c_str());
 }
 void html_tree::display() { display_rec(this->root); }
 } // namespace html

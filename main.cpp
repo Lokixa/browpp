@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
   char *url = argv[argc - 1];
   printf("%s\n", url);
   auto html_text = get_html();
-  printf("HTML: %s\n\n", html_text.c_str());
+  // printf("HTML: %s\n\n", html_text.c_str());
   html::html_tree tree{std::move(html_text)};
   tree.display();
   printf("Meta's: %zu", tree.getby_type("meta").size());
