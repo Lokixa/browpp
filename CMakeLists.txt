@@ -7,7 +7,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 set(COMPILE_TESTS "Compile unit tests" true)
 
 add_executable(br main.cpp)
-target_include_directories(br PUBLIC "${PROJECT_BINARY_DIR}")
+target_include_directories(br PUBLIC ${PROJECT_BINARY_DIR})
+target_link_libraries(br html curlpp)
 
 add_subdirectory(src)
 if(COMPILE_TESTS)

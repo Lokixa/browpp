@@ -29,6 +29,8 @@ public:
 
   std::vector<std::weak_ptr<node>> getby_type(std::string_view type);
   std::weak_ptr<node> getby_id(std::string_view id);
+
+  void display();
 };
 
 } // namespace html
