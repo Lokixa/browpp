@@ -1,6 +1,10 @@
 #include "../../includes/html.hpp"
+#include <algorithm>
 #include <memory>
 namespace html {
+// TODO Refactor
+std::vector<std::string> void_nodes = {
+    "area", "base", "br", "col", "hr", "img", "input", "link", "meta", "param"};
 
 // TODO Refactor into something less complex
 std::shared_ptr<node> node::to_tree(std::string &&html) {
@@ -19,19 +23,19 @@ std::shared_ptr<node> node::to_tree(std::string &html) {
     switch (c) {
     // Opening node setup
     case '<': {
-      // if (tag_stack.size() > 0 && tag_stack.back()->children.size() > 0)
-      //   printf("Text tag: '%s'\n",
-      //          tag_stack.back()->children.back()->name.c_str());
+      if (tag_stack.size() > 0 && tag_stack.back()->children.size() > 0)
+        printf("Text tag: '%s'\n",
+               tag_stack.back()->children.back()->name.c_str());
       // TODO Add better error handling
-      // if (in_tag)
-      //   printf("Invalid taggin\n");
+      if (in_tag)
+        printf("Invalid taggin\n");
 
-      // printf("Tags: [ ");
-      // for (const auto &tag : tag_stack) {
-      //   printf("%s ", tag->name.c_str());
-      // }
-      // printf("]\n");
-      in_tag = true;
+      printf("Tags: [ ");
+      for (const auto &tag : tag_stack) {
+        printf("%s ", tag->name.c_str());
+      }
+      printf("]\n");
+
       // Check if closing tag
       if (i + 1 < html_len && html.at(i + 1) == '/') {
         is_closing_tag = true;
@@ -40,28 +44,32 @@ std::shared_ptr<node> node::to_tree(std::string &html) {
         tag_stack.push_back(std::make_shared<node>());
       }
 
+      in_tag = true;
       break;
     }
     // Closing node cleanup
     case '>': {
       // On closing tag
-      if (is_closing_tag) {
-        if (tag_stack.size() > 0) {
+      if (tag_stack.size() > 1) {
+        std::shared_ptr<node> popped = tag_stack.back();
+        if (is_closing_tag) {
           // Get latest tag
-          std::shared_ptr<node> popped = tag_stack.back();
           tag_stack.pop_back();
 
-          // If tags left
-          if (tag_stack.size() > 0) {
-            // Assumes last tag is the same
-            // as the opening tag so adds
-            // popped tag to children
+          // if (tag_stack.size() > 0) {
+          // Assumes last tag is the same
+          // as the opening tag so adds
+          // popped tag to children
 
-            // TODO: Figure out to where
-            // the child should be added to
-            tag_stack.back()->children.push_back(popped);
-            is_closing_tag = false;
-          }
+          // TODO: Figure out to where
+          // the child should be added to
+          tag_stack.back()->children.push_back(popped);
+          is_closing_tag = false;
+          // }
+        } else if (std::find(void_nodes.begin(), void_nodes.end(),
+                             popped->name) != void_nodes.end()) {
+          tag_stack.pop_back();
+          tag_stack.back()->children.push_back(popped);
         }
       }
 
