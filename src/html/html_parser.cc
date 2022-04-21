@@ -3,8 +3,9 @@
 #include <memory>
 namespace html {
 // TODO Refactor
-std::vector<std::string> void_nodes = {
-    "area", "base", "br", "col", "hr", "img", "input", "link", "meta", "param"};
+std::vector<std::string> void_nodes = {"area", "base",  "br",    "col",
+                                       "hr",   "img",   "input", "link",
+                                       "meta", "param", "!--"};
 
 // TODO Refactor into something less complex
 std::shared_ptr<node> node::to_tree(std::string &&html) {
