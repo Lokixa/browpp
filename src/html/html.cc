@@ -40,9 +40,8 @@ std::vector<std::weak_ptr<node>> html_tree::getby_type(std::string_view type) {
 void display_rec(std::shared_ptr<html::node> node) {
   const std::string name = node->name;
   printf("%s%s",
-         node->is_text_node ? node->name.c_str()
-                            : ("<" + node->name + ">").c_str(),
-         node->attrs["attrs"].c_str());
+         node->is_text_node ? node->name.c_str() : ("<" + node->name).c_str(),
+         (node->attrs["attrs"] + (node->is_text_node ? "" : ">")).c_str());
   for (const auto &child : node->children) {
     if (child.get() != nullptr) {
       display_rec(child);
@@ -53,5 +52,8 @@ void display_rec(std::shared_ptr<html::node> node) {
                    ? ""
                    : ("</" + node->name + ">").c_str());
 }
-void html_tree::display() { display_rec(this->root); }
+void html_tree::display() {
+  display_rec(this->root);
+  printf("\n");
+}
 } // namespace html
