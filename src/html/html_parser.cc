@@ -11,6 +11,8 @@ std::shared_ptr<node> node::to_tree(std::string &&html) {
   return to_tree(html);
 }
 std::shared_ptr<node> node::to_tree(std::string &html) {
+  if (html.empty())
+    return std::shared_ptr<node>{};
   std::shared_ptr<node> root;
   std::vector<std::shared_ptr<node>> tag_stack;
   bool in_tag = false;
@@ -121,8 +123,10 @@ std::shared_ptr<node> node::to_tree(std::string &html) {
           // it's raw text
           // am pushing to name, as
           // there isn't a pure textnode
-          const auto &child = tag_stack.back()->children.back();
-          child->name.push_back(c);
+          if (tag_stack.back()->children.size() > 0) {
+            const auto &child = tag_stack.back()->children.back();
+            child->name.push_back(c);
+          }
         }
       }
       break;

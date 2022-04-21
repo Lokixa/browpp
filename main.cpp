@@ -14,10 +14,14 @@ int main(int argc, char *argv[]) {
     printf("Just URL Required\n");
     exit(1);
   }
-  char *url = argv[argc - 1];
+  std::string url{argv[argc - 1]};
 
   curl curl;
-  std::string html_text = curl.get(url);
+  std::string html_text = curl.get(url.c_str());
+  if (html_text.empty()) {
+    printf("Not supported for now.");
+    exit(1);
+  }
   // printf("HTML: %s\n\n", html_text.c_str());
   html::html_tree tree{std::move(html_text)};
   tree.display();

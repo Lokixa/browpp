@@ -38,6 +38,8 @@ std::vector<std::weak_ptr<node>> html_tree::getby_type(std::string_view type) {
 }
 // TODO Prettify output
 void display_rec(std::shared_ptr<html::node> node) {
+  if (!node.get())
+    return;
   const std::string name = node->name;
   printf("%s%s",
          node->is_text_node ? node->name.c_str() : ("<" + node->name).c_str(),
