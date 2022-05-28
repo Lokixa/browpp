@@ -72,11 +72,15 @@ std::shared_ptr<node> node::to_tree(std::string &html) {
           tag_stack.back()->children.push_back(popped);
           is_closing_tag = false;
           // }
-        } else if (std::find(void_nodes.begin(), void_nodes.end(),
-                             popped->name) != void_nodes.end()) {
+        } else if /*is a void node*/ (
+            std::find(void_nodes.begin(), void_nodes.end(), popped->name) !=
+            void_nodes.end()) {
           popped->is_void_node = true;
           tag_stack.pop_back();
           tag_stack.back()->children.push_back(popped);
+        } else if (popped->name == "script") {
+          // TODO Add script and style tag parsing
+          popped->is_extension_node = true;
         }
       }
 

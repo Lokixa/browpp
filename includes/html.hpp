@@ -13,6 +13,7 @@ struct node {
   // TODO Refactor
   bool is_text_node = false;
   bool is_void_node = false;
+  bool is_extension_node = false;
   node() : name{}, children{}, attrs{} {}
 
   static std::shared_ptr<node> to_tree(std::string &html);
